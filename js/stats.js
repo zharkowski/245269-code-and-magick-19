@@ -38,20 +38,15 @@ window.renderStatistics = function (ctx, names, times) {
   ctx.fillText('Список результатов:', TEXT_X, TEXT_Y + TEXT_GAP);
 
   for (var i = 0; i < names.length; i++) {
-    ctx.fillStyle = '#000000';
     var barHeight = (HISTOGRAM_MAX_HEIGHT * times[i]) / getMaxTime(times);
+
+    ctx.fillStyle = '#000000';
     ctx.fillText(Math.round(times[i]), CLOUD_X + (i + 1) * HISTOGRAM_GAP + i * HISTOGRAM_WIDTH, HISTOGRAM_Y + (HISTOGRAM_MAX_HEIGHT - barHeight) - TEXT_GAP, HISTOGRAM_WIDTH + HISTOGRAM_GAP);
 
-
-    if (names[i] === 'Вы') {
-      ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      ctx.fillStyle = 'hsl(240, 100%, ' + (Math.random() * 100) + '%)';
-    }
+    ctx.fillStyle = names[i] === 'Вы' ? 'rgba(255, 0, 0, 1)' : 'hsl(240, 100%, ' + (Math.random() * 100) + '%)';
     ctx.fillRect(CLOUD_X + (i + 1) * HISTOGRAM_GAP + i * HISTOGRAM_WIDTH, HISTOGRAM_Y + (HISTOGRAM_MAX_HEIGHT - barHeight), HISTOGRAM_WIDTH, barHeight);
 
     ctx.fillStyle = '#000000';
     ctx.fillText(names[i], CLOUD_X + (i + 1) * HISTOGRAM_GAP + i * HISTOGRAM_WIDTH, HISTOGRAM_Y + HISTOGRAM_MAX_HEIGHT + (TEXT_GAP - FONT_SIZE), HISTOGRAM_WIDTH + HISTOGRAM_GAP);
-
   }
 };
