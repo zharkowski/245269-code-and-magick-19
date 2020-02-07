@@ -21,30 +21,20 @@ var COAT_COLORS = [
   'rgb(0, 0, 0)'
 ];
 var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-var wizards = [
-  {
-    name: randomElement(WIZARD_FIRST_NAMES) + ' ' + randomElement(WIZARD_LAST_NAMES),
-    coatColor: randomElement(COAT_COLORS),
-    eyesColor: randomElement(EYES_COLORS)
-  },
-  {
-    name: randomElement(WIZARD_FIRST_NAMES) + ' ' + randomElement(WIZARD_LAST_NAMES),
-    coatColor: randomElement(COAT_COLORS),
-    eyesColor: randomElement(EYES_COLORS)
-  },
-  {
-    name: randomElement(WIZARD_FIRST_NAMES) + ' ' + randomElement(WIZARD_LAST_NAMES),
-    coatColor: randomElement(COAT_COLORS),
-    eyesColor: randomElement(EYES_COLORS)
-  },
-  {
-    name: randomElement(WIZARD_FIRST_NAMES) + ' ' + randomElement(WIZARD_LAST_NAMES),
-    coatColor: randomElement(COAT_COLORS),
-    eyesColor: randomElement(EYES_COLORS)
+var createWizardsArray = function (wizardsNumber) {
+  var wizards = [];
+  for (var i = 0; i < wizardsNumber; i++) {
+    var wizard = {
+      name: randomElement(WIZARD_FIRST_NAMES) + ' ' + randomElement(WIZARD_LAST_NAMES),
+      coatColor: randomElement(COAT_COLORS),
+      eyesColor: randomElement(EYES_COLORS)
+    };
+    wizards.push(wizard);
   }
-];
+  return wizards;
+};
 
-var renderWizard = function (wizard) {
+var createWizardElement = function (wizard) {
   var wizardElement = similarWizardTemplate.cloneNode(true);
 
   wizardElement.querySelector('.wizard-coat').style.fill = wizard.coatColor;
@@ -57,11 +47,16 @@ var renderWizard = function (wizard) {
 var createList = function (array) {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < array.length; i++) {
-    fragment.appendChild(renderWizard(array[i]));
+    fragment.appendChild(createWizardElement(array[i]));
   }
   return fragment;
 };
 
-similarListElement.appendChild(createList(wizards));
+var renderWizards = function (wizards) {
+  similarListElement.appendChild(createList(wizards));
+};
+
+var wizards = createWizardsArray(4);
+renderWizards(wizards);
 
 document.querySelector('.setup-similar').classList.remove('hidden');
