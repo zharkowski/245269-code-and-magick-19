@@ -10,9 +10,9 @@ document.querySelector('.setup').classList.remove('hidden');
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
 
-var WIZARD_FIRST_NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
-var WIZARD_LAST_NAMES = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
-var COAT_COLORS = [
+var wizardFirstNames = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
+var wizardLastNames = ['да Марья', 'Верон', 'Мирабелла', 'Вальц', 'Онопко', 'Топольницкая', 'Нионго', 'Ирвинг'];
+var coatColors = [
   'rgb(101, 137, 164)',
   'rgb(241, 43, 107)',
   'rgb(146, 100, 161)',
@@ -20,14 +20,14 @@ var COAT_COLORS = [
   'rgb(215, 210, 55)',
   'rgb(0, 0, 0)'
 ];
-var EYES_COLORS = ['black', 'red', 'blue', 'yellow', 'green'];
-var createWizardsArray = function (wizardsNumber) {
+var eyesColors = ['black', 'red', 'blue', 'yellow', 'green'];
+var createWizardsArray = function (number) {
   var wizards = [];
-  for (var i = 0; i < wizardsNumber; i++) {
+  for (var i = 0; i < number; i++) {
     var wizard = {
-      name: randomElement(WIZARD_FIRST_NAMES) + ' ' + randomElement(WIZARD_LAST_NAMES),
-      coatColor: randomElement(COAT_COLORS),
-      eyesColor: randomElement(EYES_COLORS)
+      name: randomElement(wizardFirstNames) + ' ' + randomElement(wizardLastNames),
+      coatColor: randomElement(coatColors),
+      eyesColor: randomElement(eyesColors)
     };
     wizards.push(wizard);
   }
