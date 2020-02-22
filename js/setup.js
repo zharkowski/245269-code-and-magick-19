@@ -3,12 +3,16 @@
 var ESC_KEY = 'Escape';
 var ENTER_KEY = 'Enter';
 
-var randomElement = function (array) {
-  var rand = Math.floor(Math.random() * array.length);
-  return array[rand];
+var randomNumber = function (end, start) {
+  if (start === undefined) {
+    start = 0;
+  }
+  return Math.floor(start + Math.random() * (end + 1 - start));
 };
 
-// document.querySelector('.setup').classList.remove('hidden');
+var randomElement = function (array) {
+  return array[randomNumber(array.length - 1)];
+};
 
 var similarListElement = document.querySelector('.setup-similar-list');
 var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
@@ -124,20 +128,32 @@ var wizardCoat = document.querySelector('.setup-wizard .wizard-coat');
 var wizardEyes = document.querySelector('.setup-wizard .wizard-eyes');
 var fireball = document.querySelector('.setup-fireball-wrap');
 
+var newColorIndex = function (colorAmount) {
+  var currentColorIndex = 0;
+  return function () {
+    if (currentColorIndex === (colorAmount - 1)) {
+      currentColorIndex = 0;
+    } else {
+      currentColorIndex++;
+    }
+    return currentColorIndex;
+  };
+};
+
+var newCoatColorIndex = newColorIndex(coatColors.length);
+var changeColorHandler = function (element, colorArray, attribute) {
+  var colorIndex = newCoatColorIndex();
+  element.style[attribute] = colorArray[colorIndex];
+};
+
 wizardCoat.addEventListener('click', function () {
-  var color = randomElement(coatColors)
-  wizardCoat.style.fill = color;
-  document.querySelector('input[name="coat-color"]').value = color;
+  changeColorHandler(wizardCoat, coatColors, 'fill');
 });
 
 wizardEyes.addEventListener('click', function () {
-  var color = randomElement(eyesColors);
-  wizardEyes.style.fill = color;
-  document.querySelector('input[name="eyes-color"]').value = color;
+  changeColorHandler(wizardEyes, eyesColors, 'fill');
 });
 
 fireball.addEventListener('click', function () {
-  var color = randomElement(fireballColors);
-  fireball.style.backgroundColor = color;
-  fireball.querySelector('input').value = color;
+  changeColorHandler(fireball, fireballColors, 'background');
 });
