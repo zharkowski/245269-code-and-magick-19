@@ -4,7 +4,6 @@
   var setupWindow = document.querySelector('.setup');
   var setupOpenButton = document.querySelector('.setup-open');
   var setupCloseButton = document.querySelector('.setup-close');
-  var saveButton = document.querySelector('.setup-submit');
   var setupForm = document.querySelector('.setup-wizard-form');
   var upload = document.querySelector('.upload');
 
@@ -27,8 +26,17 @@
   };
 
   var setupFormSendHandler = function () {
-    setupForm.submit();
+    var loadHandler = function () {
+      setupCloseHandler();
+    };
+
+    window.backend.load(new FormData(setupForm), loadHandler, window.backend.commonErrorHandler);
   };
+
+  setupForm.addEventListener('submit', function (evt) {
+    setupFormSendHandler();
+    evt.preventDefault();
+  });
 
   document.querySelector('.setup-similar').classList.remove('hidden');
   setupOpenHandler();
@@ -45,16 +53,6 @@
 
   setupCloseButton.addEventListener('click', function () {
     setupCloseHandler();
-  });
-
-  saveButton.addEventListener('keydown', function (evt) {
-    if (evt.key === window.utils.ENTER_KEY) {
-      setupFormSendHandler();
-    }
-  });
-
-  saveButton.addEventListener('click', function () {
-    setupFormSendHandler();
   });
 
   upload.addEventListener('mousedown', function (evt) {
