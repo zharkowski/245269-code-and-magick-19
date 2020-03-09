@@ -28,6 +28,11 @@
     };
   };
 
+  var wizard = {
+    coatChangeHandler: function () {},
+    eyesChangeHandler: function () {}
+  };
+
   var newColorIndex = newColorIndexHandler(coatColors.length);
   var changeColorHandler = function (element, colorArray, attribute) {
     var colorIndex = newColorIndex();
@@ -36,13 +41,17 @@
 
   wizardCoat.addEventListener('click', function () {
     changeColorHandler(wizardCoat, coatColors, 'fill');
+    wizard.coatChangeHandler(wizardCoat.style.fill);
   });
 
   wizardEyes.addEventListener('click', function () {
     changeColorHandler(wizardEyes, eyesColors, 'fill');
+    wizard.eyesChangeHandler(wizardEyes.style.fill);
   });
 
   fireball.addEventListener('click', function () {
     changeColorHandler(fireball, fireballColors, 'background');
   });
+
+  window.wizard = wizard;
 })();
