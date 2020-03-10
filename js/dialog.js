@@ -30,7 +30,7 @@
       setupCloseHandler();
     };
 
-    window.backend.load(new FormData(setupForm), loadHandler, window.backend.commonErrorHandler);
+    window.backend.save(new FormData(setupForm), loadHandler, window.backend.commonErrorHandler);
   };
 
   setupForm.addEventListener('submit', function (evt) {

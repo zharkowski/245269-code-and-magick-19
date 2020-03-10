@@ -2,6 +2,9 @@
 
 (function () {
   var SIMILAR_WIZARDS_AMOUNT = 4;
+  var similarWizards = [];
+  var coatColor;
+  var eyesColor;
 
   var similarListElement = document.querySelector('.setup-similar-list');
   var similarWizardTemplate = document.querySelector('#similar-wizard-template').content.querySelector('.setup-similar-item');
@@ -32,17 +35,65 @@
     return wizardElement;
   };
 
-  var createList = function (array) {
+  var renderWizards = function (wizards) {
+    document.querySelectorAll('.setup-similar-item').
+    forEach(function (item) {
+      item.remove();
+    });
+
     var fragment = document.createDocumentFragment();
     for (var i = 0; i < SIMILAR_WIZARDS_AMOUNT; i++) {
-      fragment.appendChild(createWizardElement(window.utils.randomElement(array)));
+      fragment.appendChild(createWizardElement(wizards[i]));
     }
-    return fragment;
+    similarListElement.appendChild(fragment);
   };
 
-  var renderWizards = function (wizards) {
-    similarListElement.appendChild(createList(wizards));
+  var namesComparator = function (left, right) {
+    if (left > right) {
+      return 1;
+    } else if (left < right) {
+      return -1;
+    } else {
+      return 0;
+    }
   };
 
-  window.backend.load(renderWizards, window.backend.commonErrorHandler);
+  var getRank = function (wizard) {
+    var rank = 0;
+    if (wizard.colorCoat === coatColor) {
+      rank += 2;
+    }
+    if (wizard.colorEyes === eyesColor) {
+      rank++;
+    }
+    return rank;
+  };
+
+  var updateWizards = function () {
+    renderWizards(similarWizards.sort(function (left, right) {
+      var rankDiff = getRank(right) - getRank(left);
+      if (!rankDiff) {
+        rankDiff = namesComparator(left, right);
+      }
+      return rankDiff;
+    }));
+  };
+
+  window.wizard.coatChangeHandler = window.debounce(function (color) {
+    coatColor = color;
+    updateWizards();
+  });
+
+  window.wizard.eyesChangeHandler = window.debounce(function (color) {
+    eyesColor = color;
+    updateWizards();
+  });
+
+  var successHandler = function (data) {
+    similarWizards = data;
+    updateWizards();
+  };
+
+  window.backend.load(successHandler, window.backend.commonErrorHandler);
+
 })();

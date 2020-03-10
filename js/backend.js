@@ -10,7 +10,7 @@
     node.style.fontSize = '30px';
 
     var error;
-    switch (wrongXhr.code) {
+    switch (wrongXhr.status) {
       case 400:
         error = 'Неверный запрос';
         break;
@@ -39,7 +39,7 @@
       try {
         loadHandler(xhr.response);
       } catch (err) {
-        errorHandler(xhr.status);
+        errorHandler(xhr);
       }
     });
 
@@ -54,7 +54,7 @@
       try {
         loadHandler(xhr.response);
       } catch (err) {
-        errorHandler(err.message);
+        errorHandler(xhr);
       }
     });
 
