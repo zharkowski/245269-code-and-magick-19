@@ -6,6 +6,30 @@
   var setupCloseButton = document.querySelector('.setup-close');
   var setupForm = document.querySelector('.setup-wizard-form');
   var upload = document.querySelector('.upload');
+  var avatar = upload.querySelector('img');
+  var setupAvatar = document.querySelector('.setup-open-icon');
+  var avatarInput = upload.querySelector('input');
+
+  upload.addEventListener('change', function () {
+    var FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+    var file = avatarInput.files[0];
+    var fileName = file.name.toLowerCase();
+
+    var matches = FILE_TYPES.some(function (it) {
+      return fileName.endsWith(it);
+    });
+
+    if (matches) {
+      var reader = new FileReader();
+
+      reader.addEventListener('load', function () {
+        setupAvatar.src = reader.result;
+        avatar.src = reader.result;
+      });
+
+      reader.readAsDataURL(file);
+    }
+  });
 
   var setupOpenHandler = function () {
     setupWindow.classList.remove('hidden');
